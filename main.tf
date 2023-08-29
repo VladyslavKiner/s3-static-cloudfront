@@ -1,19 +1,38 @@
-module "s3_bucket" {
-  source = "git@github.com:cloudposse/terraform-aws-s3-bucket.git"
-  name                     = var.name
+module "cdn" {
+  source                            = "cloudposse/cloudfront-s3-cdn/aws"
+  name                              = var.name
+  aliases                           = ["${var.domain_name}"]
+  dns_alias_enabled                 = true
+  parent_zone_id                    = data.aws_route53_zone.default.id
+  ipv6_enabled                      = false
+  cloudfront_access_logging_enabled = false
+  allowed_methods                   = var.allowed_methods
+  acm_certificate_arn               = module.acm_request_certificate.arn
 
-  s3_object_ownership      = "BucketOwnerEnforced"
-  enabled                  = true
-  user_enabled             = false
-  versioning_enabled       = false
+  depends_on = [module.acm_request_certificate]
+}
 
-  privileged_principal_actions   = ["s3:GetObject", "s3:ListBucket", "s3:GetBucketLocation"]
-  privileged_principal_arns      = [
-    {
-      (local.deployment_iam_role_arn) = [""]
-    },
-    {
-      (local.additional_deployment_iam_role_arn) = ["prefix1/", "prefix2/"]
-    }
-  ]
+# getting the route53_zone to retrieve zone ID
+data "aws_route53_zone" "default" {
+  name = var.domain_name
+}
+
+# Placing index.html file in S3 bucket
+resource "aws_s3_object" "maintenance" {
+  bucket       = module.cdn.s3_bucket
+  key          = "index.html"
+  source       = "./index.html"
+  content_type = "text/html"
+
+  depends_on = [module.cdn]
+}
+
+# create a certificate for vkiner.com domain
+module "acm_request_certificate" {
+  source                            = "cloudposse/acm-request-certificate/aws"
+  domain_name                       = var.domain_name
+  process_domain_validation_options = true
+  ttl                               = "300"
+  wait_for_certificate_issued       = true
+  zone_name                         = var.domain_name
 }
