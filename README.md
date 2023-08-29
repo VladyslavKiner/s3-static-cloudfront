@@ -74,9 +74,23 @@ Type "yes" when prompted to confirm the changes.
 **5. Access your Website**
 After Terraform applies the configuration, your static website will be accessible via domain name you cpecified in "s3_static_cloudfront.tfvars".
 
+## Variables
+This Terraform module supports the following variables:
+
+| Variable | Description |
+| ------ | ------ |
+| region | The AWS region |
+| name | The name and tag of the S3 bucket and also tag for CloudFront. |
+| domain_name | The domain_name used for CloudFront distribution and for ACM certificate |
+| allowed_methods| Allowed HTTP methods for CloudFront. |
+
 ### Conclusion
 Congratulations! You've successfully set up a static website hosted on Amazon S3 and accelerated by Amazon CloudFront with SSL certificate using the provided Terraform module. This module abstracts the complexity and enables you to quickly deploy your website with minimal configuration.
 
-For advanced configuration options and additional settings, refer to the module's documentation "https://github.com/cloudposse/terraform-aws-cloudfront-s3-cdn" and the official Terraform AWS provider documentation and AWS CloudFront documentation.
+For advanced configuration options and additional settings, refer to the module's documentation [Cloudposse AWS CloudFron with S3][PlGh] and the official [Terraform AWS provider documentation][PlDb] and [AWS CloudFront documentation][PlGd].
 
 Remember to adapt the instructions and placeholders to match your specific module's structure and variables. This guide provides a general overview of how to use your Terraform module for setting up an S3 static website with CloudFront and SSL certificate.
+
+[PlGh]: <https://github.com/cloudposse/terraform-aws-cloudfront-s3-cdn>
+[PlDb]: <https://registry.terraform.io/providers/hashicorp/aws/latest>
+[PlGd]: <https://repost.aws/knowledge-center/cloudfront-serve-static-website>
