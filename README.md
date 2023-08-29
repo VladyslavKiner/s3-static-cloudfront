@@ -57,7 +57,7 @@ terraform init
 Run the following command to preview the changes that Terraform will apply:
 
 ```sh
-terraform plan
+terraform plan -var-file s3_static_cloudfront.tfvars
 ```
 
 This step helps you verify that the module will create the expected resources.
@@ -66,7 +66,7 @@ This step helps you verify that the module will create the expected resources.
 If the preview looks good, apply the configuration to create the resources:
 
 ```sh
-terraform apply
+terraform apply -var-file s3_static_cloudfront.tfvars
 ```
 
 Type "yes" when prompted to confirm the changes.
