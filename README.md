@@ -84,8 +84,7 @@ This Terraform module supports the following variables:
 | domain_name | The domain_name used for CloudFront distribution and for ACM certificate |
 | allowed_methods| Allowed HTTP methods for CloudFront. |
 
-### Conclusion
-Congratulations! You've successfully set up a static website hosted on Amazon S3 and accelerated by Amazon CloudFront with SSL certificate using the provided Terraform module. This module abstracts the complexity and enables you to quickly deploy your website with minimal configuration.
+### Additional documentation
 
 For advanced configuration options and additional settings, refer to the module's documentation [Cloudposse AWS CloudFron with S3][PlGh], the official [Terraform AWS provider documentation][PlDb] and [AWS CloudFront documentation][PlGd].
 
